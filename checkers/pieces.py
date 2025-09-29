@@ -44,8 +44,13 @@ class Piece:
                         moves.append((nrow, ncol))
         return moves
     
-    def get_position(self):
-        """Get current position as tuple"""
-        return (self.row, self.col)
-    
+    def move(self, new_row, new_col):
+        self.row = new_row
+        self.col = new_col
+    def handle_click(self, pos):
+        """Handle mouse click events"""
+        if not self.game_over:
+            row, col = self.get_mouse_position(pos)
+            if self.board.is_valid_position(row, col):
+                self.select_piece(row, col)
     
