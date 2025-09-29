@@ -5,13 +5,10 @@ from .pieces import Piece
 class Board:
     def __init__(self):
         self.board = [[None for _ in range(Cons.COLS)] for _ in range(Cons.ROWS)]
-        self.setup_initial_pieces()
     
-    def setup_initial_pieces(self):
         # Place wolves on top row
         for col in [1, 3, 5, 7]:
             self.board[0][col] = Piece(Cons.WOLF, 0, col)
-        
         # Place sheep on bottom row
         self.board[7][0] = Piece(Cons.SHEEP, 7, 0)
     

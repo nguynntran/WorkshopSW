@@ -11,10 +11,6 @@ class Piece:
         self.radius = Cons.SQUARE_SIZE // 2 - 10
         
     def draw(self, screen):
-        """Draw the piece on the screen"""
-        # Draw piece shadow
-        pygame.draw.circle(screen, Cons.BLACK, 
-                         (self.x + 3, self.y + 3), self.radius)
         
         # Draw main piece
         if self.type == Cons.WOLF:
@@ -29,10 +25,27 @@ class Piece:
             # Add sheep marking
             pygame.draw.circle(screen, Cons.BLACK, 
                              (self.x, self.y), self.radius, 2)
+            
+    # Get legal moves based on piece type and position
+    def get_legal_moves(self, board):
+        moves = []
+        if self.type == Cons.WOLF:
+            for dcol in [-1, 1]:
+                nrow, ncol = self.row + 1, self.col + dcol
+                if (0 <= nrow < Cons.ROWS and 0 <= ncol < Cons.COLS and 
+                    board[nrow][ncol] is None and (nrow + ncol) % 2 == 1):
+                    moves.append((nrow, ncol))
+        elif self.type == Cons.SHEEP:
+            for drow in [-1, 1]:
+                for dcol in [-1, 1]:
+                    nrow, ncol = self.row + drow, self.col + dcol
+                    if (0 <= nrow < Cons.ROWS and 0 <= ncol < Cons.COLS and 
+                        board[nrow][ncol] is None and (nrow + ncol) % 2 == 1):
+                        moves.append((nrow, ncol))
+        return moves
     
     def get_position(self):
         """Get current position as tuple"""
         return (self.row, self.col)
     
-    def __str__(self):
-        return f"{self.type.capitalize()} at ({self.row}, {self.col})"
+    
