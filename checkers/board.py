@@ -19,7 +19,7 @@ class Board:
         
         for row in range(Cons.ROWS):
             for col in range(Cons.COLS):
-                # Draw dark squares (checkerboard pattern)
+                # Draw orange squares (checkerboard pattern)
                 if (row + col) % 2 == 1:
                     pygame.draw.rect(screen, Cons.ORANGE, 
                                    (col * Cons.SQUARE_SIZE, row * Cons.SQUARE_SIZE, 
