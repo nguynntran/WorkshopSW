@@ -6,7 +6,7 @@ class Cons:
     HEIGHT = 800
     ROWS = 8
     COLS = 8
-    SQUARE_SIZE = 80
+    SQUARE_SIZE = WIDTH // COLS
     
     # Colors
     BLACK = (0, 0, 0)
@@ -17,7 +17,7 @@ class Cons:
     BLUE = (0, 0, 255)
     GREEN = (0, 255, 0)
     GRAY = (128, 128, 128)
-    SELECT = (0, 255, 255)  # Cyan for selection
+    SELECT = (0, 255, 255)  
     
     # Piece types
     WOLF = "wolf"
@@ -27,5 +27,4 @@ class Cons:
     WOLF_COLOR = GRAY
     SHEEP_COLOR = WHITE
     
-    # Game settings
-    FPS = 60
+    
