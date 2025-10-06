@@ -25,10 +25,10 @@ class Board:
                                    (col * Cons.SQUARE_SIZE, row * Cons.SQUARE_SIZE, 
                                     Cons.SQUARE_SIZE, Cons.SQUARE_SIZE))
                 # Highlight for legal moves
-                if self.selected_piece == (row, col):
-                    pygame.draw.rect(screen, Cons.SELECT, 
-                                   (col * Cons.SQUARE_SIZE + 4, row * Cons.SQUARE_SIZE + 4, 
-                                    Cons.SQUARE_SIZE - 8, Cons.SQUARE_SIZE - 8), 3)
+                if (row, col) in self.highlight:
+                    pygame.draw.rect(screen, Cons.WHITE, 
+                                   (col * Cons.SQUARE_SIZE, row * Cons.SQUARE_SIZE, 
+                                    Cons.SQUARE_SIZE, Cons.SQUARE_SIZE))
 
 
                 if self.selected_piece == (row, col):
