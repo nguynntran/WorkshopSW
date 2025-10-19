@@ -1,7 +1,7 @@
 import pygame
 
 class BaseConstants:
-    """Base constants shared fors all games"""
+    #Base constants shared fors all games
     
     # Board dimensions
     ROWS = 8
@@ -22,7 +22,7 @@ class BaseConstants:
     YELLOW = (255, 255, 0)
     
     # UI colors
-    SELECT = (0, 255, 255)  # Cyan for selection
+    SELECT = (0, 255, 255)  
     HIGHLIGHT = WHITE
     
     # Game settings
