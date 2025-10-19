@@ -42,13 +42,13 @@ class BaseBoard(ABC):
                     piece.draw(screen)
     
     def get_piece(self, row, col):
-        """Get piece at specified position"""
-        if 0 <= row < Cons.ROWS and 0 <= col < Cons.COLS:
+        # Get piece at specified position
+        if self.is_valid_position(row, col):
             return self.board[row][col]
         return None
     
     def move_piece(self, from_row, from_col, to_row, to_col):
-        """Move piece from one position to another"""
+        # Move piece from one position to another
         piece = self.board[from_row][from_col]
         if piece:
             self.board[to_row][to_col] = piece
@@ -58,9 +58,9 @@ class BaseBoard(ABC):
         return False
     
     def is_valid_position(self, row, col):
-        """Check if position is within board bounds"""
+        # Check if position is within board bound
         return 0 <= row < Cons.ROWS and 0 <= col < Cons.COLS
     
     def is_empty(self, row, col):
-        """Check if position is empty"""
+        # Check if position is empty
         return self.is_valid_position(row, col) and self.board[row][col] is None
