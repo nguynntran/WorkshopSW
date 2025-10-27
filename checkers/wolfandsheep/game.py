@@ -13,7 +13,7 @@ class WolfAndSheepGame(BaseGame):
         self.valid_moves = []
     
     def handle_click(self, pos):
-        """Handle mouse click events"""
+        # Handle mouse click events
         if self.game_over:
             return
         
@@ -33,14 +33,14 @@ class WolfAndSheepGame(BaseGame):
             self.clear_selection()
     
     def select_piece(self, piece, row, col):
-        """Select a piece and show valid moves"""
+        # Select a piece and show valid moves
         self.selected_piece = piece
         self.board.selected_piece = (row, col)
         self.valid_moves = self.get_valid_moves(piece)
         self.board.highlight = self.valid_moves
     
     def move_piece(self, new_row, new_col):
-        """Move selected piece to new position"""
+        # Move selected piece to new position 
         old_row, old_col = self.selected_piece.row, self.selected_piece.col
         
         # Move piece
@@ -56,32 +56,32 @@ class WolfAndSheepGame(BaseGame):
         self.clear_selection()
     
     def clear_selection(self):
-        """Clear current selection"""
+        # Clear current selection 
         self.selected_piece = None
         self.valid_moves = []
         self.board.selected_piece = None
         self.board.highlight = []
     
     def is_current_player_piece(self, piece):
-        """Check if piece belongs to current player using numeric types"""
+        # Check if piece belongs to current player 
         if self.current_player == WASCons.WOLVES_PLAYER:
             return piece.type == WASCons.WOLF  # Using numeric constant 1
         else:
             return piece.type == WASCons.SHEEP  # Using numeric constant 2
     
     def get_valid_moves(self, piece):
-        """Get valid moves for a piece"""
+        # Get valid moves for a piece
         return piece.get_legals_moves(self.board.board)
     
     def switch_player(self):
-        """Switch between wolves and sheep players"""
+        # Switch between wolves and sheep players
         if self.current_player == WASCons.WOLVES_PLAYER:
             self.current_player = WASCons.SHEEP_PLAYER
         else:
             self.current_player = WASCons.WOLVES_PLAYER
     
     def check_win_condition(self):
-        """Check win conditions using numeric piece types"""
+        # Check win conditions 
         # Check if sheep reached top row (sheep wins)
         for col in range(Cons.COLS):
             piece = self.board.get_piece(0, col)
@@ -98,7 +98,7 @@ class WolfAndSheepGame(BaseGame):
                 self.winner = WASCons.WOLVES_PLAYER
     
     def find_sheep(self):
-        """Find the sheep piece on the board using numeric type"""
+        # Find the sheep piece on the board using numeric type"""
         for row in range(Cons.ROWS):
             for col in range(Cons.COLS):
                 piece = self.board.get_piece(row, col)
@@ -107,19 +107,19 @@ class WolfAndSheepGame(BaseGame):
         return None
     
     def get_mouse_position(self, pos):
-        """Convert mouse position to board coordinates"""
+        # Convert mouse position to board coordinates
         x, y = pos
         col = x // Cons.SQUARE_SIZE
         row = y // Cons.SQUARE_SIZE
         return row, col
     
     def draw(self, screen):
-        """Draw game state"""
+        # Draw game state
         super().draw(screen)
         self.draw_game_status(screen)
     
     def draw_game_status(self, screen):
-        """Draw current player and game status"""
+        # Draw current player and game status
         font = pygame.font.Font(None, Cons.FONT_SIZE)
         
         if self.game_over:
