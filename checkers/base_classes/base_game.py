@@ -1,5 +1,5 @@
 from abc import ABC, abstractmethod
-
+from .base_constants import BaseConstants as Cons
 class BaseGame(ABC):
     #Abstract base class for all games
     def __init__(self):
@@ -25,6 +25,13 @@ class BaseGame(ABC):
     
     def switch_player(self):           # Switch to the other player
         pass
+    
+    def get_mouse_position(self, pos):
+        # Convert mouse position to board coordinates
+        x, y = pos
+        col = x // Cons.SQUARE_SIZE
+        row = y // Cons.SQUARE_SIZE
+        return row, col
     
     def draw(self, screen):            # Draw the current game state
         self.board.draw_board(screen)
