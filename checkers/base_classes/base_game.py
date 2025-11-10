@@ -33,6 +33,13 @@ class BaseGame(ABC):
         row = y // Cons.SQUARE_SIZE
         return row, col
     
+    def clear_selection(self):
+        # Clear current selection 
+        self.selected_piece = None
+        self.valid_moves = []
+        self.board.selected_piece = None
+        self.board.highlight = []
+    
     def draw(self, screen):            # Draw the current game state
         self.board.draw_board(screen)
     
