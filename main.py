@@ -1,6 +1,3 @@
-# 
-
-# main.py
 import pygame
 import sys
 from checkers.wolfandsheep.game import WolfAndSheepGame

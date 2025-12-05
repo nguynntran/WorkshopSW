@@ -127,31 +127,27 @@ class PoddavkiGame(BaseGame):
             self.current_player = PoddavkiCons.RED_PLAYER
 
     def check_win_condition(self):
-
+        
         red_pieces = self.board.get_all_pieces(PoddavkiCons.RED_PIECE)
         black_pieces = self.board.get_all_pieces(PoddavkiCons.BLACK_PIECE)
-
-        # Win condition 1: If a player has no pieces left, they lose
+        
+        # Win condition 1: If a player has no pieces left, they win
         if len(red_pieces) == 0:
             self.game_over = True
-            self.winner = PoddavkiCons.BLACK_PLAYER  # Black wins because Red lost all pieces
+            self.winner = PoddavkiCons.RED_PLAYER  # Red wins by losing all pieces
             return
         elif len(black_pieces) == 0:
             self.game_over = True
-            self.winner = PoddavkiCons.RED_PLAYER    # Red wins because Black lost all pieces
+            self.winner = PoddavkiCons.BLACK_PLAYER  # Black wins by losing all pieces
             return
         
-        # Win condition 2: If current player has no legal moves, THEY LOSE (opponent wins)
+        # Win condition 2: If current player has no legal moves, they win
         current_pieces = red_pieces if self.current_player == PoddavkiCons.RED_PLAYER else black_pieces
         has_moves = any(self.get_valid_moves(piece) for piece in current_pieces)
         
         if not has_moves:
             self.game_over = True
-            # Current player loses because they can't move, so opponent wins
-            if self.current_player == PoddavkiCons.RED_PLAYER:
-                self.winner = PoddavkiCons.BLACK_PLAYER  # Red can't move, Black wins
-            else:
-                self.winner = PoddavkiCons.RED_PLAYER    # Black can't move, Red wins
+            self.winner = self.current_player  # Current player wins by having no moves
 
     def draw(self, screen):
         super().draw(screen)
