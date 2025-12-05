@@ -1,8 +1,13 @@
+# 
+
+# main.py
 import pygame
 import sys
 from checkers.wolfandsheep.game import WolfAndSheepGame
 from checkers.wolfandsheep.bot import WolfBot, SheepBot
 from checkers.poddavki.game import PoddavkiGame
+from checkers.poddavki.bot import PoddavkiBot
+from checkers.poddavki.constant import PoddavkiCons
 from checkers.base_classes.base_constants import BaseConstants as Cons
 
 def choose_game():
@@ -15,7 +20,7 @@ def choose_game():
         if choice == "1":
             return create_wolf_sheep_game()
         elif choice == "2":
-            return PoddavkiGame()
+            return create_poddavki_game()  # Now calls create function
         else:
             print("Invalid choice. Please enter 1 or 2.")
 
@@ -42,6 +47,33 @@ def create_wolf_sheep_game():
             wolves_bot = WolfBot()
             sheep_bot = SheepBot()
             return WolfAndSheepGame(wolves_bot=wolves_bot, sheep_bot=sheep_bot)
+        else:
+            print("Invalid choice. Please enter 1-4.")
+
+def create_poddavki_game():
+    """NEW: Create Poddavki game with bot options"""
+    print("\nPoddavki Game Setup:")
+    print("Choose players:")
+    print("1. Human vs Human")
+    print("2. Human (Red) vs Bot (Black)")
+    print("3. Human (Black) vs Bot (Red)")
+    print("4. Bot vs Bot")
+    
+    while True:
+        choice = input("Enter 1-4: ")
+        
+        if choice == "1":
+            return PoddavkiGame()
+        elif choice == "2":
+            black_bot = PoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            return PoddavkiGame(black_bot=black_bot)
+        elif choice == "3":
+            red_bot = PoddavkiBot(PoddavkiCons.RED_PIECE)
+            return PoddavkiGame(red_bot=red_bot)
+        elif choice == "4":
+            red_bot = PoddavkiBot(PoddavkiCons.RED_PIECE)
+            black_bot = PoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            return PoddavkiGame(red_bot=red_bot, black_bot=black_bot)
         else:
             print("Invalid choice. Please enter 1-4.")
 
