@@ -30,7 +30,7 @@ class PoddavkiBot(BaseBot):
         piece, (new_row, new_col) = move
         score = 0
         
-            # STRATEGY 1: SEEK to be captured (we WANT to lose pieces!)
+        # STRATEGY 1: Try to be captured 
         if self.can_be_captured_after_move(board, new_row, new_col):
             score += 150  # BIG BONUS for being capturable!
         
@@ -41,7 +41,7 @@ class PoddavkiBot(BaseBot):
             # Extra penalty if the move leaves opponent with very few pieces
             opponent_type = PoddavkiCons.BLACK_PIECE if self.piece_type == PoddavkiCons.RED_PIECE else PoddavkiCons.RED_PIECE
             opponent_pieces = board.get_all_pieces(opponent_type)
-            if len(opponent_pieces) <= 3:  # Opponent getting dangerously low
+            if len(opponent_pieces) <= 3:  # Opponent has few pieces left
                 score -= 200  # Huge penalty 
         
         # STRATEGY 3: Move to edges/corners (easier to be captured there)
@@ -52,7 +52,7 @@ class PoddavkiBot(BaseBot):
         center_distance = abs(new_row - 3.5) + abs(new_col - 3.5)
         score += center_distance * 5  # BONUS for being farther from center
         
-        # STRATEGY 5: Reduce mobility (we WANT to get trapped!)
+        # STRATEGY 5: Reduce mobility 
         mobility_score = self.cal_future_mobility(piece, new_row, new_col, board)
         score -= mobility_score * 15  # PENALTY for having too many moves
         
@@ -66,7 +66,7 @@ class PoddavkiBot(BaseBot):
         # Check if we can be captured if we move to this position 
         opponent_type = PoddavkiCons.BLACK_PIECE if self.piece_type == PoddavkiCons.RED_PIECE else PoddavkiCons.RED_PIECE
         
-        # Check all diagonal directions where opponent could capture us
+        # Check all diagonal directions 
         capture_directions = [(-2, -2), (-2, 2), (2, -2), (2, 2)]
         
         for drow, dcol in capture_directions:
