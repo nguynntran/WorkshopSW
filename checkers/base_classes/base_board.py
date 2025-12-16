@@ -32,9 +32,11 @@ class BaseBoard(ABC):
                 
                 # Draw selection border
                 if self.selected_piece == (row, col):
+                    offset = Cons.SELECT_BORDER_OFFSET
+                    size = Cons.SQUARE_SIZE - (2 * offset)
                     pygame.draw.rect(screen, Cons.SELECT, 
-                                   (col * Cons.SQUARE_SIZE + 4, row * Cons.SQUARE_SIZE + 4, 
-                                    Cons.SQUARE_SIZE - 8, Cons.SQUARE_SIZE - 8), 3)
+                                   (col * Cons.SQUARE_SIZE + offset, row * Cons.SQUARE_SIZE + offset, 
+                                    Cons.SQUARE_SIZE - size, Cons.SQUARE_SIZE - size), Cons.SELECT_BORDER_WIDTH)
                 
                 # Draw pieces
                 piece = self.board[row][col]
@@ -64,3 +66,39 @@ class BaseBoard(ABC):
     def is_empty(self, row, col):
         # Check if position is empty
         return self.is_valid_position(row, col) and self.board[row][col] is None
+    
+    # Highlight helper methods
+    def clear_highlights(self):
+        # Clear all highlighted squares
+        self.highlight = []
+    
+    def add_highlight(self, row, col):
+        # Add a square to highlights if valid
+        if self.is_valid_position(row, col):
+            if (row, col) not in self.highlight:
+                self.highlight.append((row, col))
+    
+    def set_highlights(self, positions):
+        # Set multiple highlights at once
+        self.highlight = []
+        for row, col in positions:
+            self.add_highlight(row, col)
+    
+    # Selection helper methods
+    def select_piece(self, row, col):
+        # Select a piece at given position
+        if self.is_valid_position(row, col) and self.board[row][col] is not None:
+            self.selected_piece = (row, col)
+            return True
+        return False
+    
+    def clear_selection(self):
+        # Clear piece selection
+        self.selected_piece = None
+    
+    def get_selected_piece(self):
+        # Get the currently selected piece
+        if self.selected_piece:
+            row, col = self.selected_piece
+            return self.board[row][col]
+        return None

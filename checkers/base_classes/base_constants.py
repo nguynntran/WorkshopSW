@@ -21,9 +21,15 @@ class BaseConstants:
     BROWN = (139, 69, 19)
     YELLOW = (255, 255, 0)
     
-    # UI colors
+    # UI settings:
     SELECT = (0, 255, 255)  
     HIGHLIGHT = WHITE
+    TEXT_X = 10
+    TEXT_Y = 10
+
+    # Selection border styling
+    SELECT_BORDER_OFFSET = 4      
+    SELECT_BORDER_WIDTH = 3  
     
     # Game settings
     FPS = 60

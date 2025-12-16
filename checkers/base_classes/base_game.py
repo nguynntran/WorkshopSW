@@ -39,6 +39,9 @@ class BaseGame(ABC):
         self.valid_moves = []
         self.board.selected_piece = None
         self.board.highlight = []
+        self.board.clear_selection()
+        self.board.clear_highlights()
+
     
     def draw(self, screen):            # Draw the current game state
         self.board.draw_board(screen)
