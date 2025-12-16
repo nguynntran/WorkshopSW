@@ -15,3 +15,10 @@ class WASCons:
     SHEEP_PLAYER = "sheep"
     
     MAX_MOVES = 100
+
+    # Initial setup positions
+    WOLVES_START_ROW = 0
+    WOLVES_START_COLS = [1, 3, 5, 7] 
+    
+    SHEEP_START_ROW = 7
+    SHEEP_START_COL = 0  

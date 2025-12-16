@@ -3,6 +3,8 @@ import sys
 from checkers.wolfandsheep.game import WolfAndSheepGame
 from checkers.wolfandsheep.bot import WolfBot, SheepBot
 from checkers.poddavki.game import PoddavkiGame
+from checkers.poddavki.opt_bot import OptimizedPoddavkiBot
+from checkers.poddavki.opt2_bot import SeOptimizedPoddavkiBot
 from checkers.poddavki.bot import PoddavkiBot
 from checkers.poddavki.constant import PoddavkiCons
 from checkers.base_classes.base_constants import BaseConstants as Cons
@@ -48,31 +50,43 @@ def create_wolf_sheep_game():
             print("Invalid choice. Please enter 1-4.")
 
 def create_poddavki_game():
-    """NEW: Create Poddavki game with bot options"""
     print("\nPoddavki Game Setup:")
     print("Choose players:")
     print("1. Human vs Human")
-    print("2. Human (Red) vs Bot (Black)")
-    print("3. Human (Black) vs Bot (Red)")
-    print("4. Bot vs Bot")
+    print("2. Human vs Original Bot")
+    print("3. Human vs Optimized Bot")
+    print("4. Original Bot vs Optimized Bot")
+    print("5. Optimized Bot vs Optimized Bot")
+    print("6. Original Bot vs Original Bot")
     
     while True:
-        choice = input("Enter 1-4: ")
+        choice = input("Enter 1-7: ")
         
         if choice == "1":
             return PoddavkiGame()
         elif choice == "2":
-            black_bot = PoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            black_bot = SeOptimizedPoddavkiBot(PoddavkiCons.BLACK_PIECE)
             return PoddavkiGame(black_bot=black_bot)
         elif choice == "3":
-            red_bot = PoddavkiBot(PoddavkiCons.RED_PIECE)
-            return PoddavkiGame(red_bot=red_bot)
+            black_bot = SeOptimizedPoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            return PoddavkiGame(black_bot=black_bot)
         elif choice == "4":
+            # Original vs Optimized
+            red_bot = PoddavkiBot(PoddavkiCons.RED_PIECE)
+            black_bot = OptimizedPoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            return PoddavkiGame(red_bot=red_bot, black_bot=black_bot)
+        elif choice == "5":
+            # Optimized vs Original
+            red_bot = SeOptimizedPoddavkiBot(PoddavkiCons.RED_PIECE)
+            black_bot = OptimizedPoddavkiBot(PoddavkiCons.BLACK_PIECE)
+            return PoddavkiGame(red_bot=red_bot, black_bot=black_bot)
+        elif choice == "6":
+            # Original vs Original
             red_bot = PoddavkiBot(PoddavkiCons.RED_PIECE)
             black_bot = PoddavkiBot(PoddavkiCons.BLACK_PIECE)
             return PoddavkiGame(red_bot=red_bot, black_bot=black_bot)
         else:
-            print("Invalid choice. Please enter 1-4.")
+            print("Invalid choice. Please enter 1-6.")
 
 def main():
     pygame.init()

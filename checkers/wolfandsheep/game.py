@@ -16,7 +16,7 @@ class WolfAndSheepGame(BaseGame):
         self.wolves_bot = wolves_bot
         self.sheep_bot = sheep_bot
         self.bot_move_timer = 0
-        self.bot_move_delay = 1000  # 1 second delay for bot moves
+        self.bot_move_delay = 1000  
     
     def handle_click(self, pos):
         # Don't allow manual moves when it's bot's turn
@@ -190,7 +190,7 @@ class WolfAndSheepGame(BaseGame):
             text = f"{player_text}'s Turn"
         
         text_surface = font.render(text, True, Cons.WHITE)
-        screen.blit(text_surface, (10, 10))
+        screen.blit(text_surface, (Cons.TEXT_X, Cons.TEXT_Y))
     
     def is_game_over(self):
         # Required by BaseGame
