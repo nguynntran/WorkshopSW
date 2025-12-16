@@ -8,25 +8,39 @@ class PoddavkiBot(BaseBot):
 
     def get_best_move(self, board, game_state):
         moves = self.get_all_possible_moves(board, self.piece_type)
-        
         if not moves:
             return None
-        
-        
-        best_move = None
-        best_score = float('-inf')
-        
+
+        # Enforce mandatory capture
+        capturing_moves = []
         for move in moves:
+            piece, (new_row, new_col) = move
+            if abs(new_row - piece.row) == 2:  
+                capturing_moves.append(move)
+
+        if capturing_moves:
+            moves_to_consider = capturing_moves
+        else:
+            moves_to_consider = moves
+
+        best_move = None
+        best_score = float("-inf")
+
+        for move in moves_to_consider:
             score = self.evaluate_move(move, board)
             if score > best_score:
                 best_score = score
                 best_move = move
-        
+
         return best_move
     
     
     def evaluate_move(self, move, board):
-        # Evaluate Poddavki moves
+
+        if self.leads_to_immediate_win(move, board):
+            return 10000
+        
+        # Evaluate moves
         piece, (new_row, new_col) = move
         score = 0
         
@@ -34,8 +48,8 @@ class PoddavkiBot(BaseBot):
         if self.can_be_captured_after_move(board, new_row, new_col):
             score += 150  # BIG BONUS for being capturable!
         
-        # STRATEGY 2: Avoid capturing opponent (we don't want them to lose!)
-        if abs(new_row - piece.row) == 2:  # This is a capture move
+        # STRATEGY 2: Avoid capturing opponent 
+        if abs(new_row - piece.row) == 2:  # capture move
             score -= 100  # PENALTY 
             
             # Extra penalty if the move leaves opponent with very few pieces
@@ -44,11 +58,11 @@ class PoddavkiBot(BaseBot):
             if len(opponent_pieces) <= 3:  # Opponent has few pieces left
                 score -= 200  # Huge penalty 
         
-        # STRATEGY 3: Move to edges/corners (easier to be captured there)
+        # STRATEGY 3: Move to edges/corners 
         if new_row == 0 or new_row == 7 or new_col == 0 or new_col == 7:
-            score += 30  # BONUS for edge positions (more vulnerable)
+            score += 30  # BONUS for edge positions
         
-        # STRATEGY 4: Avoid central control (we want to be vulnerable)
+        # STRATEGY 4: Avoid central control 
         center_distance = abs(new_row - 3.5) + abs(new_col - 3.5)
         score += center_distance * 5  # BONUS for being farther from center
         
@@ -116,40 +130,38 @@ class PoddavkiBot(BaseBot):
     def evaluate_pos(self, board, game_state):
         my_pieces = board.get_all_pieces(self.piece_type)
         return len(my_pieces) * 100
+    def leads_to_immediate_win(self, move, board):
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-    # def evaluate_pos(self, board, game_state):
-    #     # Evaluate position - more pieces is better, mobility is important"""
-    #     my_pieces = board.get_all_pieces(self.piece_type)
-    #     opponent_type = PoddavkiCons.BLACK_PIECE if self.piece_type == PoddavkiCons.RED_PIECE else PoddavkiCons.RED_PIECE
-    #     opponent_pieces = board.get_all_pieces(opponent_type)
+        piece, (new_row, new_col) = move
+        old_row, old_col = piece.row, piece.col
         
-    #     score = 0
+        # Simulate the move temporarily
+        captured = None
+        if abs(new_row - old_row) == 2:  # Capture move
+            capture_row = (old_row + new_row) // 2
+            capture_col = (old_col + new_col) // 2
+            captured = board.board[capture_row][capture_col]
+            if captured:
+                board.board[capture_row][capture_col] = None
         
-    #     # More pieces is better (don't want to lose them )
-    #     score += len(my_pieces) * 100
+        # Move piece temporarily
+        board.board[old_row][old_col] = None
+        board.board[new_row][new_col] = piece
+        piece.row, piece.col = new_row, new_col
         
-    #     # Fewer opponent pieces is better (want them to lose!)
-    #     score -= len(opponent_pieces) * 100
+        # Check win conditions
+        my_pieces = board.get_all_pieces(self.piece_type)
+        no_pieces = len(my_pieces) == 0
+        no_moves = not any(p.get_legals_moves(board.board) for p in my_pieces)
+        is_win = no_pieces or no_moves
         
-    #     # Mobility is crucial (don't want to be trapped!)
-    #     total_mobility = sum(len(piece.get_legals_moves(board.board)) for piece in my_pieces)
-    #     score += total_mobility * 10
+        # Undo the move
+        board.board[new_row][new_col] = None
+        board.board[old_row][old_col] = piece
+        piece.row, piece.col = old_row, old_col
+        if captured:
+            capture_row = (old_row + new_row) // 2
+            capture_col = (old_col + new_col) // 2
+            board.board[capture_row][capture_col] = captured
         
-    #     # Opponent having low mobility is good
-    #     opponent_mobility = sum(len(piece.get_legals_moves(board.board)) for piece in opponent_pieces)
-    #     score -= opponent_mobility * 5
-        
-    #     return score
+        return is_win

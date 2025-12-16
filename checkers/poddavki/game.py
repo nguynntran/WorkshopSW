@@ -8,10 +8,11 @@ class PoddavkiGame(BaseGame):
     def __init__(self, red_bot=None, black_bot=None):
         super().__init__()
         self.board = Board()
-        self.current_player = PoddavkiCons.RED_PLAYER
+        self.current_player = PoddavkiCons.BLACK_PLAYER  
         self.selected_piece = None
         self.valid_moves = []
         self.must_capture = False
+
         
         # Bot support
         self.red_bot = red_bot
@@ -171,7 +172,7 @@ class PoddavkiGame(BaseGame):
             text = f"{player_name}'s Turn{capture_text}"
         
         text_surface = font.render(text, True, Cons.WHITE)
-        screen.blit(text_surface, (10, 10))
+        screen.blit(text_surface, (Cons.TEXT_X, Cons.TEXT_Y))
 
     def is_game_over(self):
         """Required by BaseGame"""
